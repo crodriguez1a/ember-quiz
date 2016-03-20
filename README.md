@@ -1,26 +1,46 @@
 # Ember-quiz
 
-This README outlines the details of collaborating on this Ember addon.
+A simple quiz component
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+	ember install ember-quiz
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+	{{!my-template.hbs}}
+	{{basic-quiz quiz=quiz canRetry=true attemptsAllowed=3}}
 
-## Running Tests
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+--
+		
+	/* model */
+	quiz: {
+  	title: 'My Quiz',
+  	  questions: [
+        {
+      	  id: '0',
+      	  question: 'What is 2 + 2?',
+      	  choices: ['1','3','4'],
+      	  answer: '4'
+    	},
+    	{
+      	  id: '1',
+      	  question: 'What is 5 x 2?',
+      	  choices: ['1','7','4','10'],
+      	  answer: '10'
+    	}
+      ]
+	}
 
-## Building
+## Configuration
 
-* `ember build`
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+**canRetry** *false* - Signal that retries are allowed
+
+**attemptsAllowed** *Infinity* - Define how many retry attempts are allowed
+
+
+## Demo
+
+<http://crodriguez1a.github.io/ember-quiz/>
