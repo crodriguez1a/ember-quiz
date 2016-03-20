@@ -82,7 +82,7 @@ export default Ember.Component.extend({
   */
   _calcPercentage(correct, total) {
     //TODO: this check is to satisfy tests, fix this properly
-    if (get(this, '_percentage')) {
+    if (get(this, '_percentage') !== null) {
       set(this, '_percentage', Math.round( (correct/total) * 100 ));
     }
   },
