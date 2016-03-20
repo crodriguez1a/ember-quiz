@@ -1,3 +1,117 @@
-<h2 id="title">Welcome to Ember</h2>
+{{#bulma-section}}
+  <h2 class="title is-3">Ember Quiz</h2>
+  <h2 class="title is-6">
+    A simple quiz component
+  </h2>
+  <hr>
 
-{{outlet}}
+  {{#bulma-columns}}
+
+    {{#bulma-column isHalf=true}}
+      <h2 class="subtitle is-5">Try it out</h2>
+
+      {{#if added}}
+        {{bulma-notification isInfo=true notification="Successfully added to quiz!"}}
+      {{/if}}
+
+      <p class="control">
+        {{bulma-input placeholder="Add a quiz question" value=question}}
+      </p>
+      {{#if question}}
+        <p class="control">
+          <label class="label">Choice A</label>
+          {{bulma-input placeholder="Provide an answer" value=choiceA}}
+        </p>
+        <p class="control">
+          <label class="label">Choice B</label>
+          {{bulma-input placeholder="Provide an answer" value=choiceB}}
+        </p>
+        <p class="control">
+          <label class="label">Choice C</label>
+          {{bulma-input placeholder="Provide an answer" value=choiceC}}
+        </p>
+
+        {{#if (and choices choices.length)}}
+          <p class="control">
+            Which is the correct answer?
+          </p>
+          <p class="control">
+            {{#each choices as |choice|}}
+              <label class="radio">
+                {{choice}}
+                <input class="radio" name="choice" type="radio" value={{choice}} onchange={{action (mut answer) value="target.value"}} />
+              </label>
+            {{/each}}
+          </p>
+
+          {{#if answer}}
+            {{#bulma-button isPrimary=true onmousedown=(action "add")}}Add <i class="fa fa-plus-circle"></i>{{/bulma-button}}
+          {{/if}}
+
+        {{else}}
+          <p class="control">
+            {{bulma-notification isWarning=true notification="Please provide at least three options"}}
+          </p>
+        {{/if}}
+      {{/if}}
+    {{/bulma-column}}
+
+    {{#bulma-column class="content"}}
+      <blockquote>
+        {{basic-quiz quiz=theQuiz canRetry=true retryAttempts=99}}
+      </blockquote>
+    {{/bulma-column}}
+  {{/bulma-columns}}
+
+  <hr>
+  <h1 class="title is-4">Installation</h1>
+  {{#themed-syntax lang="bash" transparent="true"}}
+ember install ember-quiz
+  {{/themed-syntax}}
+
+  <hr>
+  <h1 class="title is-4">Usage</h1>
+  {{#themed-syntax lang="htmlbars" transparent="true"}}
+&#123;&#123;!my-template.hbs&#125;&#125;
+&#123;&#123;basic-quiz quiz=quiz canRetry=true attemptsAllowed=3&#125;&#125;
+  {{/themed-syntax}}
+
+  {{#themed-syntax lang="javascript" transparent="true"}}
+//model
+quiz: {
+  title: 'My Quiz',
+  questions: [
+    {
+      id: '0',
+      question: 'What is 2 + 2?',
+      choices: ['1','3','4'],
+      answer: '4'
+    },
+    {
+      id: '1',
+      question: 'What is 5 x 2?',
+      choices: ['1','7','4','10'],
+      answer: '10'
+    }
+  ]
+}
+  {{/themed-syntax}}
+
+  <hr>
+  <h1 class="title is-4">Configuration</h1>
+  <ul class="config-list">
+    <li>
+      <strong>canRetry</strong> <em>false</em><br> Signal that retries are allowed<br>
+    </li>
+    <li>
+      <strong>attemptsAllowed</strong> <em>Infinity</em><br> Define how many retry attempts are allowed<br>
+    </li>
+  </ul>
+{{/bulma-section}}
+
+{{#bulma-footer}}
+  <ul>
+    <li class="title is-5"><i class="fa fa-github"></i> <a href="http://github.com/crodriguez1a/ember-quiz" target="_blank">Fork on Github</a></li>
+    <li class="title is-6">Ember Quiz is licensed <a href="http://opensource.org/licenses/mit-license.php" target="_blank" class="mit">MIT</a></li>
+  </ul>
+{{/bulma-footer}}

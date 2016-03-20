@@ -1,0 +1,43 @@
+.choices .radio {
+  display: inline-block;
+  width: 100%;
+  margin: 0.75em 0 0 0;
+}
+
+.choices {
+  padding-bottom: 1em;
+  border-bottom: 1px solid rgba(0,0,0, 0.15);
+}
+
+.question {
+  font-weight: 600;
+}
+
+.results {
+  display: block;
+  padding: 1em;
+  background: #97cd76;
+  font-weight: 600;
+  color: white;
+}
+
+.button.confirm, .button.retry {
+  background: #42afe3;
+  color: white;
+  font-weight: 600;
+  border: none;
+}
+
+.button.retry {
+  background: #ed6c63;
+}
+
+.config-list li {
+  margin-bottom: 1em;
+}
+
+hr {
+  padding-bottom: 2em;
+  border-width: 2px;
+  border-color: rgba(0, 0, 0, 0.05);
+}

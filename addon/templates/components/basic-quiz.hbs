@@ -1,0 +1,52 @@
+{{#if hasBlock}}
+  Not yet supported.{{yield (action "_confirm") (action "_grade")}}
+{{else}}
+  {{#if quiz}}
+    <h1 class="title quiz-title">{{quiz.title}}</h1>
+    {{#each quiz.questions as | q |}}
+      <p class="question">
+        {{q.question}}
+      </p>
+      <p class="choices">
+        {{#each q.choices as |choice|}}
+          <label class="radio">
+            {{choice}}
+            <input name="choice-{{q.id}}" type="radio" value={{choice}} onchange={{action (mut q.userAnswer) value="target.value"}} />
+          </label>
+        {{/each}}
+      </p>
+    {{/each}}
+
+    <p class="submit-answers">
+      {{#if _showConfirmDialogue}}
+        {{#unless confirmed}}
+          <p class="confirm-dialogue">
+            <label class="label confirm">Are you sure you want to submit?</label>
+            <button class="button confirm" {{action "_grade"}}>Yes</button>
+            <button class="button cancel" {{action "_confirm" false}}>No</button>
+          </p>
+        {{/unless}}
+      {{else}}
+        {{#unless _didGrade}}
+          <a class="button submit-answers" {{action "_confirm" true}}>Submit Answers</a>
+        {{else}}
+          {{#if (and canRetry (lt _percentage 100))}}
+            {{#if (lte _retryAttempts attemptsAllowed)}}
+              <a class="button retry" {{action "_confirm" true}}>Retry</a>
+            {{/if}}
+          {{/if}}
+        {{/unless}}
+      {{/if}}
+    </p>
+
+    {{#if _didGrade}}
+      <p class="results">
+        {{#unless _results}}
+          <span class="calculating">Calculating...</span>
+        {{else}}
+          <span class="results-label">Results:</span> <span class="has-results">{{_results}}</span>
+        {{/unless}}
+      </p>
+    {{/if}}
+  {{/if}}
+{{/if}}
