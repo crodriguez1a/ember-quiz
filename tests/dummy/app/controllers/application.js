@@ -39,6 +39,10 @@ export default Ember.Controller.extend({
       Ember.run.later(() => {
         set(this, 'added', false);
       }, 1500);
+    },
+
+    submit(results) {
+      console.log(`The results of the quiz are ${JSON.stringify(results)}`);
     }
   }
 });

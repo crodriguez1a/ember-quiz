@@ -1,8 +1,12 @@
 {{#if hasBlock}}
-  Not yet supported.{{yield (action "_confirm") (action "_grade")}}
+  Not yet supported.{{yield (action "pushAnswer")}}
+  {{! Yield pushAnswer action then have consumer provide array of answers to compare}}
 {{else}}
   {{#if quiz}}
+    {{!Quiz Title}}
     <h1 class="title quiz-title">{{quiz.title}}</h1>
+
+    {{!Quiz questions}}
     {{#each quiz.questions as | q |}}
       <p class="question">
         {{q.question}}
@@ -17,7 +21,9 @@
       </p>
     {{/each}}
 
+    {{!Submit Answers}}
     <p class="submit-answers">
+      {{!Confirm}}
       {{#if _showConfirmDialogue}}
         {{#unless confirmed}}
           <p class="confirm-dialogue">
@@ -27,13 +33,21 @@
           </p>
         {{/unless}}
       {{else}}
+
+        {{!Initial Submit}}
         {{#unless _didGrade}}
-          <a class="button submit-answers" {{action "_confirm" true}}>Submit Answers</a>
+          <button class="button submit-answers" {{action "_confirm" true}}>Submit Answers</button>
         {{else}}
+          {{!Retry}}
           {{#if (and canRetry (lt _percentage 100))}}
             {{#if (lte _retryAttempts attemptsAllowed)}}
-              <a class="button retry" {{action "_confirm" true}}>Retry</a>
+              <button class="button retry" {{action "_confirm" true}}>Retry</button>
             {{/if}}
+          {{/if}}
+
+          {{!Submit Results}}
+          {{#if _canSubmitResults}}
+            <button class="button submit-results" {{action "submitResults"}}>Submit Results</button>
           {{/if}}
         {{/unless}}
       {{/if}}

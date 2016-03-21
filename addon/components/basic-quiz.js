@@ -75,16 +75,26 @@ export default Ember.Component.extend({
   },
 
   /**
+
+  */
+  @computed('submitResults')
+  _canSubmitResults(action) {
+    return !!action;
+  },
+
+  /**
     Calculate the percentage of correct answers
 
     @method _calcPercentage
     @private
   */
-  _calcPercentage(correct, total) {
-    //TODO: this check is to satisfy tests, fix this properly
-    if (get(this, '_percentage') !== null) {
-      set(this, '_percentage', Math.round( (correct/total) * 100 ));
-    }
+  _calcPercentage(details) {
+    let percentage = Math.round( (details.passed/details.total) * 100 );
+    // update percentage property
+    set(this, '_percentage', percentage);
+    // update quiz with results
+    set(details, 'percentage', percentage);
+    set(this, 'resultDetails', details);
   },
 
   /**
@@ -124,7 +134,10 @@ export default Ember.Component.extend({
   },
   actions: {
     /**
+      Hide/show confirmation dialogue
 
+      @method _confirm
+      @private
     */
     _confirm(confirmed) {
       set(this, '_showConfirmDialogue', confirmed);
@@ -135,8 +148,8 @@ export default Ember.Component.extend({
       @method grade
       @private
     */
-    _grade(quiz) {
-      quiz = quiz || get(this, 'quiz');
+    _grade() {
+      let quiz = get(this, 'quiz');
 
       this.setProperties({
         _retryAttempts: get(this, '_retryAttempts') + 1,
@@ -158,8 +171,35 @@ export default Ember.Component.extend({
 
       //calc results
       QUnit.moduleDone(( details ) => {
-        this._calcPercentage(details.passed, details.total);
+        this._calcPercentage(details);
       });
+    },
+
+    /**
+      Block syntax
+
+      @method pushAnswer
+      @public
+    */
+    pushAnswer() {
+
+    },
+    /**
+      Provide results object to action
+
+      @method submitResults
+      @public
+    */
+    submitResults() {
+      let action = get(this, 'submitResults');
+      let results = get(this, 'resultDetails');
+      if (action && results) {
+        this.sendAction("submitResults", results);
+        this.setProperties({
+          canRetry: false,
+          _canSubmitResults: false
+        })
+      }
     }
   }
 });

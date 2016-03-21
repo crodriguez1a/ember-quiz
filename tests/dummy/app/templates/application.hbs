@@ -58,7 +58,7 @@
 
     {{#bulma-column class="content"}}
       <blockquote>
-        {{basic-quiz quiz=theQuiz canRetry=true retryAttempts=99}}
+        {{basic-quiz quiz=theQuiz canRetry=true retryAttempts=99 submitResults=(action "submit")}}
       </blockquote>
     {{/bulma-column}}
   {{/bulma-columns}}
@@ -73,7 +73,7 @@ ember install ember-quiz
   <h1 class="title is-4">Usage</h1>
   {{#themed-syntax lang="htmlbars" transparent="true"}}
 &#123;&#123;!my-template.hbs&#125;&#125;
-&#123;&#123;basic-quiz quiz=quiz canRetry=true attemptsAllowed=3&#125;&#125;
+&#123;&#123;basic-quiz quiz=quiz canRetry=true attemptsAllowed=3 submitResults=(action "submitMyQuiz")&#125;&#125;
   {{/themed-syntax}}
 
   {{#themed-syntax lang="javascript" transparent="true"}}
@@ -97,6 +97,49 @@ quiz: {
 }
   {{/themed-syntax}}
 
+  <p class="hide">
+    <hr>
+    <h1 class="title is-4">Block Example</h1>
+    <div class="content">
+      <blockquote>
+        {{#basic-quiz as |grade|}}
+          <h1 class="title is-5">What would be the value of <strong>foo</strong> in the following example?</h1>
+
+          {{#themed-syntax lang="javascript" theme="dark"}}
+  function f(x, ...y) {
+    return x * y.length;
+  }
+
+  let foo = f(3, "hello", true);
+          {{/themed-syntax}}
+
+          <p class="control">
+            <label class="radio">
+              <strong>foo</strong> =
+            </label>
+            <label class="radio">
+              3
+              <input class="radio" name="blockChoice" type="radio" value="3" onchange={{action (mut blockAnswer) value="target.value"}} />
+            </label>
+
+            <label class="radio">
+              6
+              <input class="radio" name="blockChoice" type="radio" value="6" onchange={{action (mut blockAnswer) value="target.value"}} />
+            </label>
+
+            <label class="radio">
+              undefined
+              <input class="radio" name="blockChoice" type="radio" value="undefined" onchange={{action (mut blockAnswer) value="target.value"}} />
+            </label>
+          </p>
+          <p class="control">
+            {{#bulma-button isWarning=true onmousedown=(action grade answerSheet)}}Check Answer{{/bulma-button}}
+          </p>
+        {{/basic-quiz}}
+      </blockquote>
+    </div>
+  </p>
+
   <hr>
   <h1 class="title is-4">Configuration</h1>
   <ul class="config-list">
@@ -105,6 +148,9 @@ quiz: {
     </li>
     <li>
       <strong>attemptsAllowed</strong> <em>Infinity</em><br> Define how many retry attempts are allowed<br>
+    </li>
+    <li>
+      <strong>submitResults</strong> <em>null</em><br> Defines an action that will return a results object<br>
     </li>
   </ul>
 {{/bulma-section}}

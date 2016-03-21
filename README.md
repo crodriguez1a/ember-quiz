@@ -9,7 +9,7 @@ A simple quiz component
 ## Usage
 
 	{{!my-template.hbs}}
-	{{basic-quiz quiz=quiz canRetry=true attemptsAllowed=3}}
+	{{basic-quiz quiz=quiz canRetry=true attemptsAllowed=3 submitResults=(action="submitMyQuiz")}}
 
 
 --
@@ -39,6 +39,8 @@ A simple quiz component
 **canRetry** *false* - Signal that retries are allowed
 
 **attemptsAllowed** *Infinity* - Define how many retry attempts are allowed
+
+**submitResults** *null* - Defines an action that will return a results object
 
 
 ## Demo

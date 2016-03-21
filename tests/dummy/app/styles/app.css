@@ -21,7 +21,7 @@
   color: white;
 }
 
-.button.confirm, .button.retry {
+.button.confirm, .button.submit-results {
   background: #42afe3;
   color: white;
   font-weight: 600;
@@ -29,7 +29,8 @@
 }
 
 .button.retry {
-  background: #ed6c63;
+  color: #ed6c63;
+  border-color: #ed6c63;
 }
 
 .config-list li {
@@ -40,4 +41,8 @@ hr {
   padding-bottom: 2em;
   border-width: 2px;
   border-color: rgba(0, 0, 0, 0.05);
+}
+
+.hide {
+  display: none;
 }
